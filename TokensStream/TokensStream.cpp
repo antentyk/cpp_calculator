@@ -9,6 +9,8 @@ TokensStream::TokensStream(std::string line):
 std::string TokensStream::prepare(std::string line){
     // знаю, що тягнути boost заради декількох рядочків не варто,
     // але треба колись його таки почати вчити =)
+
+    // replacing sin and cos with s and c for easier parsing
     boost::algorithm::replace_all(
         line,
         "sin",
