@@ -21,6 +21,13 @@ namespace
     double PowerFunc(double a, double b){
         return pow(a, b);
     }
+    
+    double UnaryPlusFunc(double a){
+        return a;
+    }
+    double UnaryMinusFunc(double a){
+        return -a;
+    }
 }
 
 const set<TokenType>
@@ -29,7 +36,10 @@ const set<TokenType>
         TokenType::BinaryMinus,
         TokenType::Multiplication,
         TokenType::Division,
-        TokenType::Power
+        TokenType::Power,
+
+        TokenType::UnaryPlus,
+        TokenType::UnaryMinus
     };
 
 const set<TokenType>
@@ -52,6 +62,10 @@ const set<TokenType>
         TokenType::Multiplication,
         TokenType::Division,
         TokenType::Power
+    },
+    Calculator::kUnary{
+        TokenType::UnaryPlus,
+        TokenType::UnaryMinus
     };
 
 const map<TokenType, int>
@@ -60,6 +74,8 @@ const map<TokenType, int>
         {TokenType::BinaryPlus, 2},
         {TokenType::Division, 3},
         {TokenType::Multiplication, 3},
+        {TokenType::UnaryPlus, 4},
+        {TokenType::UnaryPlus, 4},
         {TokenType::Power, 4}
     };
 
@@ -72,6 +88,12 @@ const map<TokenType, double(*)(double, double)>
         {TokenType::Power, &PowerFunc}
     };
 
+const map<TokenType, double(*)(double)>
+    Calculator::kUnaryFunctionMap{
+        {TokenType::UnaryPlus, &UnaryPlusFunc},
+        {TokenType::UnaryMinus, &UnaryMinusFunc}
+    };
+
 const map<char, TokenType>
     Calculator::kCharRepresentation{
         {'+', TokenType::BinaryPlus},
@@ -80,5 +102,5 @@ const map<char, TokenType>
         {'/', TokenType::Division},
         {'^', TokenType::Power},
         {'(', TokenType::LeftBracket},
-        {')', TokenType::RightBracket}
+        {')', TokenType::RightBracket},
     };
