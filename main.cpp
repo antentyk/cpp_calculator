@@ -1,16 +1,27 @@
-#include <vector>
+#include <iostream>
 #include <string>
 
 #include "Tokens/Tokens.h"
 #include "TokensParser/TokensParser.h"
+#include "ShuntingYard/ShuntingYard.h"
+#include "Rpn/Rpn.h"
 
 using namespace Calculator;
-using std::vector;
+using std::cin;
+using std::cout;
+using std::endl;
+using std::getline;
+using std::string;
 
 int main(){
-    TokensParser parser("2 + 2*(4 - 2^3)");
+    string line;
 
-    vector<Token> v = parser.parse();
+    while(getline(cin, line))
+        cout << Rpn::evaluate(
+            ShuntingYard::transformToRpn(
+                TokensParser(line).parse()
+            )
+        ) << endl;
 
     return 0;
 }

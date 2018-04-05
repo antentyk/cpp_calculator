@@ -11,6 +11,17 @@ namespace Calculator{
         Token(TokenType type, double value);
 
         operator double() const;
+
+        TokenType getType() const;
+        double getValue() const;
+
+        bool isOperator() const;
+        bool isNumber() const;
+        bool isLeftAsociative() const;
+        bool isRightAsociative() const;
+        bool isBinary() const;
+
+        int getPrecedence() const;
     private:
         TokenType type;
         double value;

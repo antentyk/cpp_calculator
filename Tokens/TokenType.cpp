@@ -45,6 +45,15 @@ const set<TokenType>
         TokenType::Power
     };
 
+const set<TokenType>
+    Calculator::kBinary{
+        TokenType::BinaryPlus,
+        TokenType::BinaryMinus,
+        TokenType::Multiplication,
+        TokenType::Division,
+        TokenType::Power
+    };
+
 const map<TokenType, int>
     Calculator::kPrecedence{
         {TokenType::BinaryPlus, 2},

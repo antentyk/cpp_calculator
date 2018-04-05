@@ -22,6 +22,8 @@ namespace Calculator{
     extern const std::set<TokenType>
         kLeftAscoiative,
         kRightAsociative;
+    extern const std::set<TokenType>
+        kBinary;
     extern const std::map<TokenType, int>
         kPrecedence;
     extern const std::map<TokenType, double(*)(double, double)>

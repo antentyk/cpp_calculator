@@ -25,6 +25,13 @@ namespace Calculator{
         }
     };
 
+    class PrecedenceError : public std::exception{
+    public:
+        const char * what () const throw (){
+            return "This token cannot have precedence";
+        }
+    };
+
     class NoTokensLeft : public std::exception{
     public:
         const char * what () const throw (){
@@ -36,6 +43,20 @@ namespace Calculator{
     public:
         const char * what () const throw (){
             return "Invalid token detected";
+        }
+    };
+
+    class MismatchedBrackets : public std::exception{
+    public:
+        const char * what () const throw (){
+            return "Invalid use of brackets";
+        }
+    };
+
+    class InvalidOperand : public std::exception{
+    public:
+        const char * what () const throw (){
+            return "Too few operands provided or operands has wrong type";
         }
     };
 }
