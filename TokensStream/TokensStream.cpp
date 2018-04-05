@@ -7,6 +7,8 @@ TokensStream::TokensStream(std::string line):
 {}
 
 std::string TokensStream::prepare(std::string line){
+    // знаю, що тягнути boost заради декількох рядочків не варто,
+    // але треба колись його таки почати вчити =)
     boost::algorithm::replace_all(
         line,
         "sin",
