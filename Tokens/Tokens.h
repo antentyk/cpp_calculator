@@ -16,6 +16,7 @@ namespace Calculator{
         double getValue() const;
 
         bool isOperator() const;
+        bool isFunction() const;
         bool isNumber() const;
         bool isLeftAsociative() const;
         bool isRightAsociative() const;

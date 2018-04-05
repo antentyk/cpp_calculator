@@ -13,6 +13,11 @@ vector<Token> ShuntingYard::transformToRpn(
     stack<Token> operator_stack;
 
     for(auto token: expression){
+        if(token.isFunction()){
+            operator_stack.push(token);
+            continue;
+        }
+
         if(token.isNumber()){
             output_queue.push(token);
             continue;
@@ -29,7 +34,8 @@ vector<Token> ShuntingYard::transformToRpn(
                         operator_stack.top().getPrecedence() == 
                             token.getPrecedence() && 
                         operator_stack.top().isLeftAsociative()
-                    )
+                    ) ||
+                    operator_stack.top().isFunction()
                 )
             )
             {

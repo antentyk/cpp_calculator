@@ -40,6 +40,10 @@ bool Token::isOperator() const{
     return kOperators.find(type) != kOperators.end();
 }
 
+bool Token::isFunction() const{
+    return kFunctions.find(type) != kFunctions.end();
+}
+
 bool Token::isNumber() const{
     return type == TokenType::Number;
 }

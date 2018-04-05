@@ -3,8 +3,23 @@
 using namespace Calculator;
 
 TokensStream::TokensStream(std::string line):
-    strm(std::stringstream(line))
+    strm(std::stringstream(prepare(line)))
 {}
+
+std::string TokensStream::prepare(std::string line){
+    boost::algorithm::replace_all(
+        line,
+        "sin",
+        std::string(1, kReversedCharRepresentation.at(TokenType::Sine))
+    );
+    boost::algorithm::replace_all(
+        line,
+        "cos",
+        std::string(1, kReversedCharRepresentation.at(TokenType::Cosine))
+    );
+
+    return line;
+}
 
 Token TokensStream::get(){
     char current;

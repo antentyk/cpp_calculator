@@ -4,6 +4,8 @@
 #include <string>
 #include <sstream>
 
+#include <boost/algorithm/string.hpp>
+
 #include "../Tokens/Tokens.h"
 #include "../Exceptions/Exceptions.h"
 
@@ -13,6 +15,8 @@ namespace Calculator{
         TokensStream(std::string line);
         Token get();
     private:
+        static std::string prepare(std::string line);
+
         std::stringstream strm;
     };
 }

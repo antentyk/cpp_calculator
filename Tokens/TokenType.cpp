@@ -28,6 +28,13 @@ namespace
     double UnaryMinusFunc(double a){
         return -a;
     }
+
+    double SineFunc(double a){
+        return sin(a);
+    }
+    double CosineFunc(double a){
+        return cos(a);
+    }
 }
 
 const set<TokenType>
@@ -40,6 +47,10 @@ const set<TokenType>
 
         TokenType::UnaryPlus,
         TokenType::UnaryMinus
+    },
+    Calculator::kFunctions{
+        TokenType::Sine,
+        TokenType::Cosine
     };
 
 const set<TokenType>
@@ -61,11 +72,14 @@ const set<TokenType>
         TokenType::BinaryMinus,
         TokenType::Multiplication,
         TokenType::Division,
-        TokenType::Power
+        TokenType::Power,
     },
     Calculator::kUnary{
         TokenType::UnaryPlus,
-        TokenType::UnaryMinus
+        TokenType::UnaryMinus,
+
+        TokenType::Sine,
+        TokenType::Cosine
     };
 
 const map<TokenType, int>
@@ -91,7 +105,9 @@ const map<TokenType, double(*)(double, double)>
 const map<TokenType, double(*)(double)>
     Calculator::kUnaryFunctionMap{
         {TokenType::UnaryPlus, &UnaryPlusFunc},
-        {TokenType::UnaryMinus, &UnaryMinusFunc}
+        {TokenType::UnaryMinus, &UnaryMinusFunc},
+        {TokenType::Cosine, &CosineFunc},
+        {TokenType::Sine, &SineFunc}
     };
 
 const map<char, TokenType>
@@ -103,4 +119,12 @@ const map<char, TokenType>
         {'^', TokenType::Power},
         {'(', TokenType::LeftBracket},
         {')', TokenType::RightBracket},
+        {'s', TokenType::Sine},
+        {'c', TokenType::Cosine}
+    };
+
+const map<TokenType, char>
+    Calculator::kReversedCharRepresentation{
+        {TokenType::Sine, 's'},
+        {TokenType::Cosine, 'c'}
     };

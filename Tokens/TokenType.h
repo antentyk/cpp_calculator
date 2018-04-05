@@ -15,12 +15,17 @@ namespace Calculator{
         Power,
         LeftBracket,
         RightBracket,
+
         UnaryPlus,
-        UnaryMinus
+        UnaryMinus,
+
+        Sine,
+        Cosine
     };
 
     extern const std::set<TokenType>
-        kOperators;
+        kOperators,
+        kFunctions;
     extern const std::set<TokenType>
         kLeftAscoiative,
         kRightAsociative;
@@ -35,6 +40,8 @@ namespace Calculator{
         kUnaryFunctionMap;
     extern const std::map<char, TokenType>
         kCharRepresentation;
+    extern const std::map<TokenType, char>
+        kReversedCharRepresentation;
 
 }
 

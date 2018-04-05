@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <exception>
 
 #include "Tokens/Tokens.h"
 #include "TokensParser/TokensParser.h"
@@ -16,12 +17,19 @@ using std::string;
 int main(){
     string line;
 
-    while(getline(cin, line))
-        cout << Rpn::evaluate(
-            ShuntingYard::transformToRpn(
-                TokensParser(line).parse()
-            )
-        ) << endl;
+    while(getline(cin, line)){
+        try{
+            cout << Rpn::evaluate(
+                ShuntingYard::transformToRpn(
+                    TokensParser(line).parse()
+                )
+            ) << endl;       
+        }
+        catch(const std::exception &e){
+            cout << "The following exception occured: ";
+            cout << e.what() << endl;
+        }
+    }
 
     return 0;
 }
