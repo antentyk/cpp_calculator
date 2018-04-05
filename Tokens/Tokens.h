@@ -20,6 +20,7 @@ namespace Calculator{
         bool isLeftAsociative() const;
         bool isRightAsociative() const;
         bool isBinary() const;
+        bool isUnary() const;
 
         int getPrecedence() const;
     private:

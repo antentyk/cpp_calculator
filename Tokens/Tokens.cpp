@@ -56,6 +56,10 @@ bool Token::isBinary() const{
     return kBinary.find(type) != kBinary.end();
 }
 
+bool Token::isUnary() const{
+    return kUnary.find(type) != kUnary.end();
+}
+
 int Token::getPrecedence() const{
     auto itr = kPrecedence.find(type);
     if(itr == kPrecedence.end())

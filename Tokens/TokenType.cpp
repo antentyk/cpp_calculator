@@ -71,12 +71,12 @@ const set<TokenType>
 const map<TokenType, int>
     Calculator::kPrecedence{
         {TokenType::BinaryPlus, 2},
-        {TokenType::BinaryPlus, 2},
+        {TokenType::BinaryMinus, 2},
         {TokenType::Division, 3},
         {TokenType::Multiplication, 3},
         {TokenType::UnaryPlus, 4},
-        {TokenType::UnaryPlus, 4},
-        {TokenType::Power, 4}
+        {TokenType::UnaryMinus, 4},
+        {TokenType::Power, 5}
     };
 
 const map<TokenType, double(*)(double, double)>

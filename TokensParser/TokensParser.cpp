@@ -14,8 +14,45 @@ vector<Token> TokensParser::parse(){
     vector<Token> result;
 
     try{
-        while(true)
-            result.push_back(strm.get());
+        while(true){
+            Token current = strm.get();
+
+            // transforming binary +- operators
+            // to unary +- operators
+            // where it is necessary
+            if
+            (
+                current.getType() == TokenType::BinaryPlus ||
+                current.getType() == TokenType::BinaryMinus
+            )
+            {
+                if(result.size() == 0){
+                    result.push_back(
+                        current.getType() == TokenType::BinaryPlus?
+                            Token(TokenType::UnaryPlus):
+                            Token(TokenType::UnaryMinus)
+                    );
+                    continue;
+                }
+
+                Token previous = result.back();
+                if
+                (
+                    previous.isOperator() ||
+                    previous.getType() == TokenType::LeftBracket
+                )
+                {
+                    result.push_back(
+                        current.getType() == TokenType::BinaryPlus?
+                            Token(TokenType::UnaryPlus):
+                            Token(TokenType::UnaryMinus)
+                    );
+                    continue;
+                }
+            }
+
+            result.push_back(current);
+        }
     }
     catch(const NoTokensLeft& e){
         return result;
