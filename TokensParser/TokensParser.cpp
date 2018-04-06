@@ -39,7 +39,8 @@ vector<Token> TokensParser::parse(){
                 if
                 (
                     previous.isOperator() ||
-                    previous.getType() == TokenType::LeftBracket
+                    previous.getType() == TokenType::LeftBracket ||
+                    previous.getType() == TokenType::Delimiter
                 )
                 {
                     result.push_back(

@@ -22,6 +22,18 @@ std::string TokensStream::prepare(std::string line){
         std::string(1, kReversedCharRepresentation.at(TokenType::Cosine))
     );
 
+    // replacing max and min with a and i for easier parsing
+    boost::algorithm::replace_all(
+        line,
+        "max",
+        std::string(1, kReversedCharRepresentation.at(TokenType::Max))
+    );
+    boost::algorithm::replace_all(
+        line,
+        "min",
+        std::string(1, kReversedCharRepresentation.at(TokenType::Min))
+    );
+
     return line;
 }
 

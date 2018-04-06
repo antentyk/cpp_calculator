@@ -4,6 +4,7 @@
 #include <set>
 #include <map>
 #include <cmath>
+#include <algorithm>
 
 namespace Calculator{
     enum class TokenType{
@@ -20,7 +21,12 @@ namespace Calculator{
         UnaryMinus,
 
         Sine,
-        Cosine
+        Cosine,
+
+        Delimiter,
+
+        Min,
+        Max
     };
 
     extern const std::set<TokenType>

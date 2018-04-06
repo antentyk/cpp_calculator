@@ -29,13 +29,13 @@ vector<Token> ShuntingYard::transformToRpn(
                 !operator_stack.empty() &&
                 operator_stack.top().getType() != TokenType::LeftBracket &&
                 (
+                    operator_stack.top().isFunction() ||
                     operator_stack.top().getPrecedence() > token.getPrecedence() ||
                     (
                         operator_stack.top().getPrecedence() == 
                             token.getPrecedence() && 
                         operator_stack.top().isLeftAsociative()
-                    ) ||
-                    operator_stack.top().isFunction()
+                    )
                 )
             )
             {
@@ -52,7 +52,12 @@ vector<Token> ShuntingYard::transformToRpn(
             continue;
         }
 
-        if(token.getType() == TokenType::RightBracket){
+        if
+        (
+            token.getType() == TokenType::RightBracket ||
+            token.getType() == TokenType::Delimiter
+        )
+        {
             while
             (
                 !operator_stack.empty() &&
@@ -68,6 +73,10 @@ vector<Token> ShuntingYard::transformToRpn(
                 throw MismatchedBrackets();
             
             operator_stack.pop();
+
+            if(token.getType() == TokenType::Delimiter)
+                operator_stack.push(Token(TokenType::LeftBracket));
+
             continue;
         }
     }

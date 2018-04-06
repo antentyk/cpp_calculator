@@ -35,6 +35,13 @@ namespace
     double CosineFunc(double a){
         return cos(a);
     }
+
+    double MinFunc(double a, double b){
+        return std::min(a, b);
+    }
+    double MaxFunc(double a, double b){
+        return std::max(a, b);
+    }
 }
 
 const set<TokenType>
@@ -50,7 +57,10 @@ const set<TokenType>
     },
     Calculator::kFunctions{
         TokenType::Sine,
-        TokenType::Cosine
+        TokenType::Cosine,
+
+        TokenType::Min,
+        TokenType::Max
     };
 
 const set<TokenType>
@@ -73,6 +83,9 @@ const set<TokenType>
         TokenType::Multiplication,
         TokenType::Division,
         TokenType::Power,
+
+        TokenType::Min,
+        TokenType::Max
     },
     Calculator::kUnary{
         TokenType::UnaryPlus,
@@ -99,7 +112,10 @@ const map<TokenType, double(*)(double, double)>
         {TokenType::BinaryMinus, &BinaryMinusFunc},
         {TokenType::Multiplication, &MultiplicationFunc},
         {TokenType::Division, &DivisionFunc},
-        {TokenType::Power, &PowerFunc}
+        {TokenType::Power, &PowerFunc},
+
+        {TokenType::Min, &MinFunc},
+        {TokenType::Max, &MaxFunc}
     };
 
 const map<TokenType, double(*)(double)>
@@ -120,11 +136,16 @@ const map<char, TokenType>
         {'(', TokenType::LeftBracket},
         {')', TokenType::RightBracket},
         {'s', TokenType::Sine},
-        {'c', TokenType::Cosine}
+        {'c', TokenType::Cosine},
+        {',', TokenType::Delimiter},
+        {'i', TokenType::Min},
+        {'a', TokenType::Max}
     };
 
 const map<TokenType, char>
     Calculator::kReversedCharRepresentation{
         {TokenType::Sine, 's'},
-        {TokenType::Cosine, 'c'}
+        {TokenType::Cosine, 'c'},
+        {TokenType::Min, 'i'},
+        {TokenType::Max, 'a'}
     };
