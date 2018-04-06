@@ -34,6 +34,9 @@ std::string TokensStream::prepare(std::string line){
         std::string(1, kReversedCharRepresentation.at(TokenType::Min))
     );
 
+    // eliminating cases like sin(0, 1) + by putting extra + 0 to the end
+    line += " + 0";
+    
     return line;
 }
 
