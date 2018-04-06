@@ -1,32 +1,25 @@
-#ifndef TOKEN_H_
-#define TOKEN_H_
+#ifndef TOKENS_H_
+#define TOKENS_H_
 
 #include "TokenType.h"
 #include "../Exceptions/Exceptions.h"
 
 namespace Calculator{
     class Token{
+    // representation of the Token
+    // that has type and value(only for Number)
     public:
-        explicit Token(TokenType type);
-        Token(TokenType type, double value);
-
-        operator double() const;
-
+        // if constructor is inappropriate
+        // throws TokenInitialization()
+        Token(TokenType type, double value); // for Number only
+        explicit Token(TokenType type); // for all the rest types
+    
         TokenType getType() const;
-        double getValue() const;
-
-        bool isOperator() const;
-        bool isFunction() const;
-        bool isNumber() const;
-        bool isLeftAsociative() const;
-        bool isRightAsociative() const;
-        bool isBinary() const;
-        bool isUnary() const;
-
-        int getPrecedence() const;
+        // for Number only
+        double getValue() const; // throws NoValue()
     private:
         TokenType type;
-        double value;
+        double value{0};
     };
 }
 

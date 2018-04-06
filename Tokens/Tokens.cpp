@@ -3,26 +3,18 @@
 using namespace Calculator;
 
 Token::Token(TokenType type):
-    type(type),
-    value(0)
+    type(type)
 {
-    if(isNumber())
-        throw NumberTokenInitialization();
+    if(type == TokenType::Number)
+        throw TokenInitialization();
 }
 
 Token::Token(TokenType type, double value):
     type(type),
     value(value)
 {
-    if(!isNumber())
-        throw NonNumberTokenInitialization();
-}
-
-Token::operator double() const{
-    if(!isNumber())
-        throw TokenConvertion();
-    
-    return value;
+    if(type != TokenType::Number)
+        throw TokenInitialization();
 }
 
 TokenType Token::getType() const{
@@ -30,44 +22,8 @@ TokenType Token::getType() const{
 }
 
 double Token::getValue() const{
-    if(!isNumber())
-        throw TokenConvertion();
+    if(type != TokenType::Number)
+        throw NoValue();
     
     return value;
-}
-
-bool Token::isOperator() const{
-    return kOperators.find(type) != kOperators.end();
-}
-
-bool Token::isFunction() const{
-    return kFunctions.find(type) != kFunctions.end();
-}
-
-bool Token::isNumber() const{
-    return type == TokenType::Number;
-}
-
-bool Token::isLeftAsociative() const{
-    return kLeftAscoiative.find(type) != kLeftAscoiative.end();
-}
-
-bool Token::isRightAsociative() const{
-    return kRightAsociative.find(type) != kRightAsociative.end();
-}
-
-bool Token::isBinary() const{
-    return kBinary.find(type) != kBinary.end();
-}
-
-bool Token::isUnary() const{
-    return kUnary.find(type) != kUnary.end();
-}
-
-int Token::getPrecedence() const{
-    auto itr = kPrecedence.find(type);
-    if(itr == kPrecedence.end())
-        throw PrecedenceError();
-    
-    return itr->second;
 }

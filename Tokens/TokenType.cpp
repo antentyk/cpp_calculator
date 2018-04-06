@@ -4,8 +4,29 @@ using namespace Calculator;
 using std::map;
 using std::set;
 
+// defining functions that operators and functions
+// should do on particular double values
 namespace
 {
+    double UnaryPlusFunc(double a){
+        return a;
+    }
+    double UnaryMinusFunc(double a){
+        return -a;
+    }
+    double SineFunc(double a){
+        return sin(a);
+    }
+    double CosineFunc(double a){
+        return cos(a);
+    }
+
+    double MinFunc(double a, double b){
+        return std::min(a, b);
+    }
+    double MaxFunc(double a, double b){
+        return std::max(a, b);
+    }
     double BinaryPlusFunc(double a, double b){
         return a + b;
     }
@@ -21,131 +42,94 @@ namespace
     double PowerFunc(double a, double b){
         return pow(a, b);
     }
-    
-    double UnaryPlusFunc(double a){
-        return a;
-    }
-    double UnaryMinusFunc(double a){
-        return -a;
-    }
-
-    double SineFunc(double a){
-        return sin(a);
-    }
-    double CosineFunc(double a){
-        return cos(a);
-    }
-
-    double MinFunc(double a, double b){
-        return std::min(a, b);
-    }
-    double MaxFunc(double a, double b){
-        return std::max(a, b);
-    }
 }
 
 const set<TokenType>
-    Calculator::kOperators{
-        TokenType::BinaryPlus,
-        TokenType::BinaryMinus,
-        TokenType::Multiplication,
-        TokenType::Division,
-        TokenType::Power,
-
-        TokenType::UnaryPlus,
-        TokenType::UnaryMinus
+    Calculator::kTermUnaryOperators{
+        TokenType::Plus,
+        TokenType::Minus
     },
-    Calculator::kFunctions{
-        TokenType::Sine,
-        TokenType::Cosine,
-
-        TokenType::Min,
-        TokenType::Max
-    };
-
-const set<TokenType>
-    Calculator::kLeftAscoiative{
+    Calculator::kTermBinaryOperators{
         TokenType::Multiplication,
         TokenType::Division,
-        TokenType::BinaryPlus,
-        TokenType::BinaryMinus
-    };
-
-const set<TokenType>
-    Calculator::kRightAsociative{
         TokenType::Power
     };
 
 const set<TokenType>
-    Calculator::kBinary{
-        TokenType::BinaryPlus,
-        TokenType::BinaryMinus,
-        TokenType::Multiplication,
-        TokenType::Division,
-        TokenType::Power,
-
-        TokenType::Min,
-        TokenType::Max
+    Calculator::kExpressionBinaryOperators{
+        TokenType::Plus,
+        TokenType::Minus
     },
-    Calculator::kUnary{
-        TokenType::UnaryPlus,
-        TokenType::UnaryMinus,
-
+    Calculator::kExpressionUnaryFunctions{
         TokenType::Sine,
         TokenType::Cosine
-    };
-
-const map<TokenType, int>
-    Calculator::kPrecedence{
-        {TokenType::BinaryPlus, 2},
-        {TokenType::BinaryMinus, 2},
-        {TokenType::Division, 3},
-        {TokenType::Multiplication, 3},
-        {TokenType::UnaryPlus, 4},
-        {TokenType::UnaryMinus, 4},
-        {TokenType::Power, 5}
+    },
+    Calculator::kExpressionBinaryFunctions{
+        TokenType::Min,
+        TokenType::Max
     };
 
 const map<TokenType, double(*)(double, double)>
     Calculator::kBinaryFunctionMap{
-        {TokenType::BinaryPlus, &BinaryPlusFunc},
-        {TokenType::BinaryMinus, &BinaryMinusFunc},
+        {TokenType::Min, &MinFunc},
+        {TokenType::Max, &MaxFunc},
+        {TokenType::Plus, &BinaryPlusFunc},
+        {TokenType::Minus, &BinaryMinusFunc},
         {TokenType::Multiplication, &MultiplicationFunc},
         {TokenType::Division, &DivisionFunc},
-        {TokenType::Power, &PowerFunc},
-
-        {TokenType::Min, &MinFunc},
-        {TokenType::Max, &MaxFunc}
+        {TokenType::Power, &PowerFunc}
     };
 
 const map<TokenType, double(*)(double)>
     Calculator::kUnaryFunctionMap{
-        {TokenType::UnaryPlus, &UnaryPlusFunc},
-        {TokenType::UnaryMinus, &UnaryMinusFunc},
         {TokenType::Cosine, &CosineFunc},
-        {TokenType::Sine, &SineFunc}
+        {TokenType::Sine, &SineFunc},
+        {TokenType::Plus, &UnaryPlusFunc},
+        {TokenType::Minus, &UnaryMinusFunc}
     };
 
-const map<char, TokenType>
-    Calculator::kCharRepresentation{
-        {'+', TokenType::BinaryPlus},
-        {'-', TokenType::BinaryMinus},
-        {'*', TokenType::Multiplication},
-        {'/', TokenType::Division},
-        {'^', TokenType::Power},
-        {'(', TokenType::LeftBracket},
-        {')', TokenType::RightBracket},
-        {'s', TokenType::Sine},
-        {'c', TokenType::Cosine},
-        {',', TokenType::Delimiter},
-        {'i', TokenType::Min},
-        {'a', TokenType::Max}
+const map<TokenType, std::string>
+    Calculator::kHumanRepresentation{
+        {TokenType::Plus, "+"},
+        {TokenType::Minus, "-"},
+        {TokenType::Multiplication, "*"},
+        {TokenType::Division, "/"},
+        {TokenType::Power, "^"},
+        {TokenType::LeftBracket, "("},
+        {TokenType::RightBracket, ")"},
+        {TokenType::Delimiter, ","},
+        {TokenType::Sine, "sin"},
+        {TokenType::Cosine, "cos"},
+        {TokenType::Min, "min"},
+        {TokenType::Max, "max"}
     };
 
 const map<TokenType, char>
-    Calculator::kReversedCharRepresentation{
+    Calculator::kInternalRepresentation{
+        {TokenType::Plus, '+'},
+        {TokenType::Minus, '-'},
+        {TokenType::Multiplication, '*'},
+        {TokenType::Division, '/'},
+        {TokenType::Power, '^'},
+        {TokenType::LeftBracket, '('},
+        {TokenType::RightBracket, ')'},
+        {TokenType::Delimiter, ','},
         {TokenType::Sine, 's'},
         {TokenType::Cosine, 'c'},
         {TokenType::Min, 'i'},
         {TokenType::Max, 'a'}
     };
+
+namespace{
+    map<char, TokenType> initkReversedInternalRepresentation(){
+        map<char, TokenType> result;
+        for(auto it: kInternalRepresentation)
+            result.insert({it.second, it.first});
+        
+        return result;
+    }
+}
+
+const map<char, TokenType>
+    Calculator::kReversedInternalRepresentation =
+        initkReversedInternalRepresentation();

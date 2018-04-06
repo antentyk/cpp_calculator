@@ -4,59 +4,73 @@
 #include <exception>
 
 namespace Calculator{
-    class NumberTokenInitialization : public std::exception{
+    class NoGrammarRule : public std::exception{
     public:
-        const char * what () const throw (){
-            return "Number token should be provided with double value";
+        const char * what() const throw (){
+            return "No suitable grammar rule";
         }
     };
 
-    class NonNumberTokenInitialization : public std::exception{
+    class NoValue : public std::exception{
     public:
-        const char * what () const throw (){
-            return "Only number token can have double value";
+        const char * what() const throw (){
+            return "This token cannot have value";
         }
     };
 
-    class TokenConvertion : public std::exception{
+    class TokenInitialization : public std::exception{
     public:
-        const char * what () const throw (){
-            return "This token cannot be converted to double";
-        }
-    };
-
-    class PrecedenceError : public std::exception{
-    public:
-        const char * what () const throw (){
-            return "This token cannot have precedence";
-        }
-    };
-
-    class NoTokensLeft : public std::exception{
-    public:
-        const char * what () const throw (){
-            return "There are no tokens left";
+        const char * what() const throw() {
+            return "You should use another constructor for this token";
         }
     };
 
     class InvalidToken : public std::exception{
     public:
-        const char * what () const throw (){
+        const char * what() const throw(){
             return "Invalid token detected";
         }
     };
 
-    class MismatchedBrackets : public std::exception{
+    class NoTokensLeft : public std::exception{
     public:
-        const char * what () const throw (){
-            return "Invalid use of brackets";
+        const char * what() const throw (){
+            return "There are no tokens left";
         }
     };
 
-    class InvalidOperand : public std::exception{
+    class NoRevertTokens : public std::exception{
     public:
-        const char * what () const throw (){
-            return "Too few operands provided or operands has wrong type";
+        const char * what() const throw(){
+            return "There are no tokens to revert";
+        }
+    };
+
+    class ExpressionFailure : public std::exception{
+    public:
+        const char * what() const throw(){
+            return "Error while parsing Expression";
+        }
+    };
+
+    class TermFailure : public std::exception{
+    public:
+        const char * what() const throw(){
+            return "Error while parsing Term";
+        }
+    };
+
+    class FactorFailure : public std::exception{
+    public:
+        const char * what() const throw(){
+            return "Error while parsing Factor";
+        }
+    };
+
+    class OddTokensLeft : public std::exception{
+    public:
+        const char * what() const throw(){
+            return "There are tokens that cannot be parsed";
         }
     };
 }
