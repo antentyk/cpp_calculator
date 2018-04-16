@@ -1,10 +1,11 @@
 # cpp_calculator
 Calculator project during C++ course at UCU
 
-Current operators:
+<h3>Current operators:</h3>
 - binary: <b>+ - / *</b>
 - unary: <b>+ -</b>
-Current functions:
+
+<h3>Current functions:</h3>
 - binary: <b>min max pow</b>
 - unary: <b>sin cos</b>
 
