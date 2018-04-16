@@ -48,28 +48,30 @@ namespace
 }
 
 const set<TokenType>
-    Calculator::kTermUnaryOperators{
+    Calculator::kFactorUnaryOperators{
         TokenType::Plus,
         TokenType::Minus
     },
-    Calculator::kTermBinaryOperators{
-        TokenType::Multiplication,
-        TokenType::Division,
+    Calculator::kFactorUnaryFunctions{
+        TokenType::Sine,
+        TokenType::Cosine
+    },
+    Calculator::kFactorBinaryFunctions{
+        TokenType::Min,
+        TokenType::Max,
         TokenType::Power
+    };
+
+const set<TokenType>
+    Calculator::kTermBinaryOperators{
+        TokenType::Division,
+        TokenType::Multiplication
     };
 
 const set<TokenType>
     Calculator::kExpressionBinaryOperators{
         TokenType::Plus,
         TokenType::Minus
-    },
-    Calculator::kExpressionUnaryFunctions{
-        TokenType::Sine,
-        TokenType::Cosine
-    },
-    Calculator::kExpressionBinaryFunctions{
-        TokenType::Min,
-        TokenType::Max
     };
 
 const map<TokenType, double(*)(double, double)>
@@ -97,7 +99,7 @@ const map<TokenType, std::string>
         {TokenType::Minus, "-"},
         {TokenType::Multiplication, "*"},
         {TokenType::Division, "/"},
-        {TokenType::Power, "^"},
+        {TokenType::Power, "pow"},
         {TokenType::LeftBracket, "("},
         {TokenType::RightBracket, ")"},
         {TokenType::Delimiter, ","},
@@ -113,7 +115,7 @@ const map<TokenType, char>
         {TokenType::Minus, '-'},
         {TokenType::Multiplication, '*'},
         {TokenType::Division, '/'},
-        {TokenType::Power, '^'},
+        {TokenType::Power, 'p'},
         {TokenType::LeftBracket, '('},
         {TokenType::RightBracket, ')'},
         {TokenType::Delimiter, ','},

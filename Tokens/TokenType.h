@@ -29,16 +29,19 @@ namespace Calculator{
     };
 
     // defining operators and functions for each part of the grammar
-    // for Term
+    // for Factor
     extern const std::set<TokenType>
-        kTermUnaryOperators,
+        kFactorUnaryOperators,
+        kFactorUnaryFunctions,
+        kFactorBinaryFunctions;
+
+    // Term
+    extern const std::set<TokenType>
         kTermBinaryOperators;
     
     // and Expression
     extern const std::set<TokenType>
-        kExpressionBinaryOperators,
-        kExpressionUnaryFunctions,
-        kExpressionBinaryFunctions;
+        kExpressionBinaryOperators;
 
     // mapping operators and functions to actual functions that they should do
     // for binary

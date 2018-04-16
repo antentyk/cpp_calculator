@@ -12,20 +12,60 @@ GrammarParser::GrammarParser(Parser parser):
 double GrammarParser::Factor(){
     if(parser.empty())
         throw FactorFailure();
-
+    
     Token current = parser.get();
 
-    if(current.getType() == TokenType::Number) // rule no. 1
-        return current.getValue();
+    // rule no. 1 and 2
+    if(kFactorUnaryOperators.find(current.getType()) != kFactorUnaryOperators.end())
+        return kUnaryFunctionMap.at(current.getType())(Factor());
     
-    if(current.getType() == TokenType::LeftBracket){ // rule no. 2
-        double expression = Expression();
-        Token last = parser.get();
-        if(last.getType() != TokenType::RightBracket)
+    // rule no 3
+    if(kFactorBinaryFunctions.find(current.getType()) != kFactorBinaryFunctions.end())
+    {
+        if(parser.get().getType() != TokenType::LeftBracket)
             throw FactorFailure();
+        
+        double lhs = Expression();
+
+        if(parser.get().getType() != TokenType::Delimiter)
+            throw FactorFailure();
+        
+        double rhs = Expression();
+
+        if(parser.get().getType() != TokenType::RightBracket)
+            throw FactorFailure();
+
+        return kBinaryFunctionMap.at(current.getType())(lhs, rhs);
+    }
+
+    // rule no. 4
+    if(kFactorUnaryFunctions.find(current.getType()) != kFactorUnaryFunctions.end())
+    {
+        if(parser.get().getType() != TokenType::LeftBracket)
+            throw FactorFailure();
+        
+        double lhs = Expression();
+
+        if(parser.get().getType() != TokenType::RightBracket)
+            throw FactorFailure();
+        
+        return kUnaryFunctionMap.at(current.getType())(lhs);
+    }
+
+    // rule no. 5
+    if(current.getType() == TokenType::LeftBracket){
+        double expression = Expression();
+
+        if(parser.get().getType() != TokenType::RightBracket)
+            throw FactorFailure();
+        
         return expression;
     }
 
+    // rule no. 6
+    if(current.getType() == TokenType::Number)
+        return current.getValue();
+    
     throw FactorFailure();
 }
 
@@ -33,114 +73,50 @@ double GrammarParser::Term(){
     if(parser.empty())
         throw TermFailure();
 
-    Token current = parser.get();
+    // rule no. 9
+    double result = Factor();
 
-    // rule no. 4, 5
-    if
-    (
-        kTermUnaryOperators.find(current.getType()) !=
-        kTermUnaryOperators.end()
-    )
-        return kUnaryFunctionMap.at(current.getType())(Term());
-
-    parser.revert();
-    
-    double factor = Factor();
-
-    // rule no. 3
-    if(parser.empty())
-        return factor;
-    
-    // rule no. 6, 7, 8
-    Token binary_operator = parser.get();
-    
-    if
-    (
-        kTermBinaryOperators.find(binary_operator.getType()) ==
-        kTermBinaryOperators.end()
-    )
+    while(!parser.empty())
     {
+        Token current = parser.get();
+
+        // rule no. 7 8
+        if(kTermBinaryOperators.find(current.getType()) != kTermBinaryOperators.end())
+        {
+            result = kBinaryFunctionMap.at(current.getType())(result, Factor());
+            continue;
+        }
+
         parser.revert();
-        return factor;
+        break;
     }
-    
-    return kBinaryFunctionMap.at(binary_operator.getType())(factor, Term());
+
+    return result;
 }
 
 double GrammarParser::Expression(){
     if(parser.empty())
         throw ExpressionFailure();
+    
+    // rule no. 12
+    double result = Term();
 
-    double result;
-
-    Token current = parser.get();
-
-    if
-    (
-        kExpressionUnaryFunctions.find(current.getType()) !=
-        kExpressionUnaryFunctions.end()
-    )
+    while(!parser.empty())
     {
-        Token unary_function = current;
+        Token current = parser.get();
 
-        if(parser.get().getType() != TokenType::LeftBracket)
-            throw ExpressionFailure();
-        
-        double expression = Expression();
+        // rule no. 10 11
+        if(kExpressionBinaryOperators.find(current.getType()) != kExpressionBinaryOperators.end())
+        {
+            result = kBinaryFunctionMap.at(current.getType())(result, Term());
+            continue;
+        }
 
-        if(parser.get().getType() != TokenType::RightBracket)
-            throw ExpressionFailure();
-        
-        result = kUnaryFunctionMap.at(unary_function.getType())(expression);
-    }
-    else if
-    (
-        kExpressionBinaryFunctions.find(current.getType()) !=
-        kExpressionBinaryFunctions.end()
-    )
-    {
-        Token binary_function = current;
-
-        if(parser.get().getType() != TokenType::LeftBracket)
-            throw ExpressionFailure();
-        
-        double first_operand = Expression();
-
-        if(parser.get().getType() != TokenType::Delimiter)
-            throw ExpressionFailure();
-        
-        double second_operand = Expression();
-
-        if(parser.get().getType() != TokenType::RightBracket)
-            throw ExpressionFailure();
-        
-        result = kBinaryFunctionMap.at(binary_function.getType())(
-            first_operand,
-            second_operand
-        );
-    }
-    else
-    {
         parser.revert();
-        result = Term();
+        break;
     }
 
-    // rule no. 9, 12, 15
-    if(parser.empty())
-        return result;
-
-    // rule no 10, 11, 13, 14, 16, 17
-    Token binary_operator = parser.get();
-    if
-    (
-        kExpressionBinaryOperators.find(binary_operator.getType()) ==
-        kExpressionBinaryOperators.end()
-    )
-    {
-        parser.revert();
-        return result;
-    }
-    return kBinaryFunctionMap.at(binary_operator.getType())(result, Expression());
+    return result;
 }
 
 double GrammarParser::evaluate(){
