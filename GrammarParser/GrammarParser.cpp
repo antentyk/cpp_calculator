@@ -1,5 +1,8 @@
 #include "GrammarParser.h"
 
+#include "../Tokens/Tokens.h"
+#include "../Exceptions/Exceptions.h"
+
 using namespace Calculator;
 
 GrammarParser::GrammarParser(Parser parser):

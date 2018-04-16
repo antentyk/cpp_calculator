@@ -1,3 +1,6 @@
+#include <sstream>
+#include <boost/algorithm/string.hpp>
+
 #include "Parser.h"
 
 using namespace Calculator;

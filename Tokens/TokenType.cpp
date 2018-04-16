@@ -1,3 +1,6 @@
+#include <cmath>
+#include <algorithm>
+
 #include "TokenType.h"
 
 using namespace Calculator;

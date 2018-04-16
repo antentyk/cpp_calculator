@@ -28,9 +28,7 @@ Factor :=
 
 */
 
-#include "../Tokens/Tokens.h"
 #include "../Parser/Parser.h"
-#include "../Exceptions/Exceptions.h"
 
 namespace Calculator{
     class GrammarParser{

@@ -3,8 +3,6 @@
 
 #include <set>
 #include <map>
-#include <cmath>
-#include <algorithm>
 #include <string>
 
 namespace Calculator{
