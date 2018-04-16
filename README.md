@@ -1,15 +1,18 @@
 # cpp_calculator
 Calculator project during C++ course at UCU
 
-<h3>Current operators:</h3>
-- binary: <b>+ - / *</b>
-- unary: <b>+ -</b>
+<h3>Current operators:</h3><br/>
 
-<h3>Current functions:</h3>
-- binary: <b>min max pow</b>
-- unary: <b>sin cos</b>
+binary: <b>+ - / *</b> <br/>
+unary: <b>+ -</b> <br/>
 
-It supports nested expressions as well
+<h3>Current functions:</h3><br/>
+
+binary: <b>min max pow</b><br/>
+unary: <b>sin cos</b><br/>
+
+
+It supports nested expressions as well<br/>
 
 Examples:
 - Input: <b>pow(1 + sin(2 * 3), cos(min(1, 2 + 2 / 7)))</b>
