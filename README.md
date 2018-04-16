@@ -11,5 +11,5 @@ Current functions:
 It supports nested expressions as well
 
 Examples:
-    Input: <b>pow(1 + sin(2 * 3), cos(min(1, 2 + 2 / 7)))</b>
-    Output: <b>0.837735</b>
+- Input: <b>pow(1 + sin(2 * 3), cos(min(1, 2 + 2 / 7)))</b>
+- Output: <b>0.837735</b>
